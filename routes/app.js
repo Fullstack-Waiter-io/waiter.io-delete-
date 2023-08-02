@@ -4,7 +4,7 @@ const app= express();
 require('dotenv').config();
 
 //body-parsing middleware
-app.use(express.json());
+app.use(express.json()); 
 
 //post to openAPI engine davinci-003 (chatgpt 3.5 turbo)
 app.post('/api/reformat-menu', async(req, res) =>{
