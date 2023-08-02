@@ -8,6 +8,8 @@ app.use(express.json());
 
 //post to openAPI engine davinci-003 (chatgpt 3.5 turbo)
 app.post('/api/reformat-menu', async(req, res) =>{
+  const openaiApiKey = process.env.API_KEY_OPENAPI;
+
     const prompt = req.body.prompt;
 
     try {
@@ -19,7 +21,7 @@ app.post('/api/reformat-menu', async(req, res) =>{
             //need to insert openapi key into bearer
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer`
+            'Authorization': `Bearer ${openaiApiKey}`
           }
         });
         const reformattedMenu = openaiResponse.data.choices[0].text;
