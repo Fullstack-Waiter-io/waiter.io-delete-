@@ -5,6 +5,7 @@
 //     //things that change
 //     //image
 //     const [image, setImage] = useState(null);
+//     const [menu, set]
 
 //     //Image changes on target?
 //     const ImageChange = (e) =>{
@@ -29,5 +30,10 @@
 //             console.error('Menu issue:', error);
 //         }
 //     }
+//     // return a div that first says "please double check this info with your actual waiter"
+//     return(
+//         <div>
 
+//         </div>
+//     )
 // }
