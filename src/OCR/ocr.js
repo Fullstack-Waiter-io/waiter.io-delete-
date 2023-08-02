@@ -1,19 +1,54 @@
 const vision = require('@google-cloud/vision');
-// const client = new vision.ImageAnnotatorClient(CONFIG);
+const { Translate } = require('@google-cloud/translate').v2;
 
-const client = new vision.ImageAnnotatorClient({
+const visionClient = new vision.ImageAnnotatorClient({
   keyFilename: 'key.json',
 });
 
-// Performs label detection on the image file
-client
-  .textDetection('./jdmtext.jpg')
-  .then((results) => {
-    const text = results[0].textAnnotations;
+// google cloud translate API
+const translateClient = new Translate({
+  keyFilename: 'key.json', // Your Google Cloud Translate API key file
+});
 
-    text.forEach((label) => console.log(label.text));
-    console.log(results);
-  })
-  .catch((err) => {
-    console.error('ERROR:', err);
-  });
+// OCR
+const processImageAndTranslate = async (imageFilePath, targetLanguage) => {
+  try {
+    // get the extracted text
+    const [result] = await visionClient.textDetection(imageFilePath);
+    const text = result.fullTextAnnotation.text;
+
+    // console.log('Extracted text from the image:');
+    // console.log(text);
+
+    // Translate text language
+    const translatedText = await translateText(text, targetLanguage);
+
+    console.log(`Translated text (${targetLanguage}):`);
+    console.log(translatedText);
+  } catch (err) {
+    console.error('Error occurred:', err);
+  }
+};
+
+// Translate text function
+const translateText = async (text, targetLanguage) => {
+  try {
+    const [translations] = await translateClient.translate(
+      text,
+      targetLanguage
+    );
+    const translatedText = Array.isArray(translations)
+      ? translations[0]
+      : translations;
+    return translatedText;
+  } catch (err) {
+    console.error('Error occurred:', err);
+    return null;
+  }
+};
+
+// function process the image and translate it
+const imageFilePath = './How_to_order_food_in_Spanish.png'; // need to make this the up loaded photo
+const targetLanguage = 'en'; // need a drop down menu for all languages we need
+
+processImageAndTranslate(imageFilePath, targetLanguage);
