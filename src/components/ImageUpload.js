@@ -5,8 +5,9 @@ function ImageUpload(props) {
   const [selectedLanguage, setSelectedLanguage] = useState('');
  
   const fileSelectedHandler = event => {
-    setSelectedFile(event.target.files[0]);
-    props.onFileSelect(event.target.files[0], selectedLanguage);  // Pass file back to parent
+    const file = event.target.files[0]
+    setSelectedFile(file);
+    props.onFileSelect(file, selectedLanguage);  // Pass file back to parent
   }
 
   const languageChangeHandler = event => {
