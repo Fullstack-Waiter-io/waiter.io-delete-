@@ -11,10 +11,10 @@ const translateClient = new Translate({
 });
 
 // OCR
-const processImageAndTranslate = async (imageFilePath, targetLanguage) => {
+const processImageAndTranslate = async (selectedFile, targetLanguage) => {
   try {
     // get the extracted text
-    const [result] = await visionClient.textDetection(imageFilePath);
+    const [result] = await visionClient.textDetection(selectedFile.path);
     const text = result.fullTextAnnotation.text;
 
     // console.log('Extracted text from the image:');
@@ -47,8 +47,4 @@ const translateText = async (text, targetLanguage) => {
   }
 };
 
-// function process the image and translate it
-const imageFilePath = './How_to_order_food_in_Spanish.png'; // need to make this the up loaded photo
-const targetLanguage = 'en'; // need a drop down menu for all languages we need
-
-processImageAndTranslate(imageFilePath, targetLanguage);
+export { processImageAndTranslate };
